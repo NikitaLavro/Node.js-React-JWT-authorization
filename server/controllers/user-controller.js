@@ -4,7 +4,7 @@ class UserController {
     } catch (error) {}
   }
 
-  async registration(req, res, next) {
+  async login(req, res, next) {
     try {
     } catch (error) {}
   }
@@ -24,8 +24,9 @@ class UserController {
     } catch (error) {}
   }
 
-  async registration(req, res, next) {
+  async getUsers(req, res, next) {
     try {
+      res.json(["123", "456"]);
     } catch (error) {}
   }
 }
