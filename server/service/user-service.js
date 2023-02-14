@@ -1,6 +1,7 @@
 const UserModel = require("../models/user-model");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
+const mailService = require("./mail-service");
 
 class UserService {
   async registration(email, password) {
@@ -17,6 +18,7 @@ class UserService {
       hashPassword,
       activationLink,
     });
+    await mailService.sendActivationMail(email, activationLink);
   }
 }
 
