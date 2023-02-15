@@ -12,7 +12,20 @@ class MailService {
       },
     });
   }
-  async sendActivationMail(email, link) {}
+  async sendActivationMail(email, link) {
+    await this.transporter.sendMail({
+      from: process.env.SMTP_USER,
+      to,
+      subject: "Account activation" + process.env.API_URL,
+      text: "",
+      html: `
+      <div>
+         <h1>Click to activate</h1>
+         <a href=${link}>${link}</a>
+      </div>
+      `,
+    });
+  }
 }
 
 module.exports = new MailService();
