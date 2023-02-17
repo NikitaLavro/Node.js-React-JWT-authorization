@@ -8,20 +8,18 @@ const ApiError = require("../exceptions/api-error");
 
 class UserService {
   async registration(email, password) {
-    const candidateExists = await UserModel.findOne({ email });
-
-    if (candidateExists) {
+    const candidate = await UserModel.findOne({ email });
+    if (candidate) {
       throw ApiError.BadRequest(
         `Candidate with email of ${email} already exists`
       );
     }
-
     const hashPassword = await bcrypt.hash(password, 3);
     const activationLink = uuid.v4();
 
     const user = await UserModel.create({
       email,
-      hashPassword,
+      password: hashPassword,
       activationLink,
     });
     await mailService.sendActivationMail(
@@ -33,10 +31,7 @@ class UserService {
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-    return {
-      ...tokens,
-      user: userDto,
-    };
+    return { ...tokens, user: userDto };
   }
 
   async activate(activationLink) {
