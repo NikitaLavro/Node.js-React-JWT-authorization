@@ -28,4 +28,15 @@ export default class Store {
       console.log(error.response?.data?.message);
     }
   }
+
+  async registration(email: string, password: string) {
+    try {
+      const response = await AuthService.registration(email, password);
+      localStorage.setItem("token", response.data.accessToken);
+      this.setAuth(true);
+      this.setUser(response.data.user);
+    } catch (error: any) {
+      console.log(error.response?.data?.message);
+    }
+  }
 }
