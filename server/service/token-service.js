@@ -16,6 +16,22 @@ class TokenService {
     };
   }
 
+  validateAccessToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      return userData;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  validateRefreshToken(token) {
+    try {
+      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+      return userData;
+    } catch (error) {}
+  }
+
   async saveToken(userId, refreshToken) {
     const tokenDataExists = await tokenModel.findOne(userId);
     if (tokenDataExists) {
