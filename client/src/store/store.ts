@@ -39,4 +39,15 @@ export default class Store {
       console.log(error.response?.data?.message);
     }
   }
+
+  async logout() {
+    try {
+      const response = await AuthService.logout();
+      localStorage.removeItem("token");
+      this.setAuth(false);
+      this.setUser({} as IUser);
+    } catch (error: any) {
+      console.log(error.response?.data?.message);
+    }
+  }
 }
