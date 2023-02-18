@@ -1,10 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from ".";
 import LoginForm from "./components/LoginForm";
 import { observer } from "mobx-react-lite";
+import { IUser } from "./models/response/IUser";
+import UserService from "./services/UserService";
 
 function App() {
   const { store } = useContext(Context);
+  const [users, setUsers] = useState<IUser[]>([]);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -18,6 +21,15 @@ function App() {
 
   if (!store.isAuth) {
     return <LoginForm />;
+  }
+
+  async function getUsers() {
+    try {
+      const response = await UserService.fetchUsers();
+      setUsers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -34,6 +46,12 @@ function App() {
       >
         Logout
       </button>
+      <div>
+        <button onClick={getUsers}>Get Users</button>
+        {users.map((user) => (
+          <div key={user.email}>{user.email}</div>
+        ))}
+      </div>
     </div>
   );
 }
