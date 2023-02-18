@@ -12,6 +12,10 @@ function App() {
     }
   }, []);
 
+  if (!store.isAuth) {
+    return <LoginForm />;
+  }
+
   return (
     <div className="App">
       <h1>
@@ -19,7 +23,13 @@ function App() {
           ? `User is logged in ${store.user.email}`
           : `Please log in`}
       </h1>
-      <LoginForm />
+      <button
+        onClick={() => {
+          store.logout();
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 }
