@@ -12,6 +12,10 @@ function App() {
     }
   }, []);
 
+  if (store.isLoading) {
+    return <div>Loading...</div>;
+  }
+
   if (!store.isAuth) {
     return <LoginForm />;
   }
