@@ -39,6 +39,11 @@ function App() {
           ? `User is logged in ${store.user.email}`
           : `Please log in`}
       </h1>
+      <h1>
+        {store.user.isActivated
+          ? "Account is confirmed"
+          : "Please confirm your account"}
+      </h1>
       <button
         onClick={() => {
           store.logout();
